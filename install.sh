@@ -9,11 +9,6 @@
 vpn_name=$1
 vpn_password=$2
 
-## GET REAL IP
-if [[ "$PUBLICIP" != "" ]]; then
-	IP=$PUBLICIP
-fi
-
 ## Updating System and Installing OpenVPN and other Application
 apt-get update
 apt-get install openvpn squid ufw mysql-client unzip unix2dos -y
