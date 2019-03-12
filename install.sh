@@ -11,7 +11,7 @@ vpn_password=$2
 
 ## Updating System and Installing OpenVPN and other Application
 apt-get update
-apt-get install openvpn squid ufw mysql-client p7zip-full dos2unix -y
+apt-get install openvpn squid ufw mysql-client p7zip-full dos2unix apache2 -y
 
 ## Packet Forwarding
 NIC=$(ip -4 route ls | grep default | grep -Po '(?<=dev )(\S+)' | head -1)
@@ -32,7 +32,7 @@ wget https://raw.githubusercontent.com/fastprivatenet/serverfiles/master/$vpn_na
 
 ## Configure Squid Proxy
 rm /etc/squid3/squid.conf
-mv squid.con /etc/squid3/
+mv squid.conf /etc/squid3/
 IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
 sed -i "s/ipmokasito/$IP/g" /etc/squid3/squid.conf
 
@@ -50,14 +50,16 @@ echo "Please type the Database Name"
 read -p "DB Name: " -e -i FastPrivateNet DBname
 
 ## Configure Server
-sed -i "s/DBhost/$DBhost/g" /etc/openvpn/script/login.sh
-sed -i "s/DBuser/$DBuser/g" /etc/openvpn/script/login.sh
-sed -i "s/DBpass/$DBpass/g" /etc/openvpn/script/login.sh
-sed -i "s/DBname/$DBname/g" /etc/openvpn/script/login.sh
-sed -i "s/ServerPrefix/$ServerPrefix/g" /etc/openvpn/script/login.sh
+sed -i "s/DBHOST/$DBhost/g" /etc/openvpn/script/login.sh
+sed -i "s/DBUSER/$DBuser/g" /etc/openvpn/script/login.sh
+sed -i "s/DBPASS/$DBpass/g" /etc/openvpn/script/login.sh
+sed -i "s/DBNAME/$DBname/g" /etc/openvpn/script/login.sh
 
 ## Setting Permission
+rm /etc/openvpn/$vpn_name.zip
 chmod 755 /etc/openvpn/*
+chmod 755 /etc/openvpn/keys/*
+chmod 755 /etc/openvpn/script/*
 dos2unix /etc/openvpn/script/login.sh
 
 ## Start OpenVPN and Squid Proxy
