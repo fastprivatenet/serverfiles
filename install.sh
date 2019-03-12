@@ -27,7 +27,7 @@ echo y | ufw enable
 ## Download OpenVPN Files
 cd /etc/openvpn/
 rm *
-wget https://github.com/fastprivatenet/serverfiles/blob/master/$vpn_name.zip
+wget https://raw.githubusercontent.com/fastprivatenet/serverfiles/master/$vpn_name.zip
 unzip $vpn_name.zip
 
 ## Configure Squid Proxy
