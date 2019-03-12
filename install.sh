@@ -11,7 +11,7 @@ vpn_password=$2
 
 ## Updating System and Installing OpenVPN and other Application
 apt-get update
-apt-get install openvpn squid ufw mysql-client unzip unix2dos -y
+apt-get install openvpn squid ufw mysql-client unzip dos2unix -y
 
 ## Packet Forwarding
 NIC=$(ip -4 route ls | grep default | grep -Po '(?<=dev )(\S+)' | head -1)
@@ -58,7 +58,7 @@ sed -i "s/ServerPrefix/$ServerPrefix/g" /etc/openvpn/script/login.sh
 
 ## Setting Permission
 chmod 755 /etc/openvpn/*
-unix2dos /etc/openvpn/script/login.sh
+dos2unix /etc/openvpn/script/login.sh
 
 ## Start OpenVPN and Squid Proxy
 service openvpn restart
