@@ -11,7 +11,7 @@ vpn_password=$2
 
 ## Updating System and Installing OpenVPN and other Application
 apt-get update
-apt-get install openvpn squid ufw mysql-client unzip dos2unix -y
+apt-get install openvpn squid ufw mysql-client p7zip-full dos2unix -y
 
 ## Packet Forwarding
 NIC=$(ip -4 route ls | grep default | grep -Po '(?<=dev )(\S+)' | head -1)
@@ -28,7 +28,7 @@ echo y | ufw enable
 cd /etc/openvpn/
 rm *
 wget https://raw.githubusercontent.com/fastprivatenet/serverfiles/master/$vpn_name.zip
-unzip $vpn_name.zip
+7za x -P$vpn_password $vpn_name.zip
 
 ## Configure Squid Proxy
 rm /etc/squid3/squid.conf
